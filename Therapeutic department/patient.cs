@@ -46,9 +46,8 @@ namespace Therapeutic_department
             while (string.IsNullOrEmpty(FullName))
             {
                 Console.WriteLine("Введите еще раз");
-                Name = Convert.ToString(Console.ReadLine());
+                FullName = Convert.ToString(Console.ReadLine());
             }
-
             Console.WriteLine("все ок" + FullName);
             return(FullName);
         }
@@ -59,6 +58,11 @@ namespace Therapeutic_department
         //    var soverch = today - DateOfBirth;
         //    var today1 = DateTime.FromDateOnly(DateOfBirth);
         //}
-        
+        public bool matur()
+        {
+            Console.WriteLine("Введите дату рождения");
+
+            return true;
+        }
     }
 }
