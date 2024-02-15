@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,7 @@ namespace Therapeutic_department
         static int numberofpatients;
         public int soverch;
         public string Name;
+        public bool mtr;
         public Patient()
         {
             
@@ -22,12 +24,19 @@ namespace Therapeutic_department
             //string FullName = Convert.ToString(Console.ReadLine());
 
             FullName = FullName1();
-            DateOfBirth = new DateOnly(2000, 3, 24);
+            DateOfBirth = new DateOnly();
+            mtr =    matur();
+            if (mtr == false )
+            {
+                FullName = FullName1();
+                mtr = matur();
+            }
+            
             DateOfreceipt = new DateOnly(2020, 5, 1);
             DateOfdischarge = new DateOnly(2020, 5, 9);
             numberofpatients = 1;
             var today = DateOnly.FromDateTime(DateTime.Now);
-            Console.WriteLine("все ок" + FullName + " " +Name);
+            Console.WriteLine("все ок" + FullName + " " +mtr);
             return;
 
 
@@ -60,9 +69,35 @@ namespace Therapeutic_department
         //}
         public bool matur()
         {
-            Console.WriteLine("Введите дату рождения");
+            Console.WriteLine("Введите дату рождения (в формате ГГГГ-ММ-ДД):");
+            string birthString = Console.ReadLine();
 
-            return true;
+            if (DateOnly.TryParseExact(birthString, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly birth))
+            {
+                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
+                int age = currentDate.Year - birth.Year;
+
+                if (currentDate.DayOfYear < birth.DayOfYear)
+                {
+                    age--;
+                }
+
+                if (age < 18)
+                {
+                    Console.WriteLine("Пациент несовершеннолетний. Невозможно поместить его в отделение.");
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Пациент совершеннолетний.");
+                    return true;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Некорректный формат даты.");
+                return false;
+            }
         }
     }
 }
