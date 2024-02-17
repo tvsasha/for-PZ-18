@@ -13,30 +13,40 @@ namespace Therapeutic_department
         public DateOnly DateOfBirth;
         public DateOnly DateOfreceipt;
         public DateOnly DateOfdischarge;
-        static int numberofpatients;
+        static int quantity;
         public int soverch;
         public string Name;
         public bool mtr;
         public Patient()
         {
-            
+
 
             //string FullName = Convert.ToString(Console.ReadLine());
 
-            FullName = FullName1();
-            DateOfBirth = new DateOnly();
-            mtr =    matur();
-            if (mtr == false )
+            
+            if (quantity > 10)
             {
+                Console.WriteLine("Отсутствуют свободные места");
+            }
+            else
+            {
+                quantity += 1;
+                LimitDateInput();
                 FullName = FullName1();
+                DateOfBirth = new DateOnly();
                 mtr = matur();
+                if (mtr == false)
+                {
+                    FullName = FullName1();
+
+                    mtr = matur();
+                }
+                DateOfreceipt = new DateOnly(2020, 5, 1);
+                DateOfdischarge = new DateOnly(2020, 5, 9);
+                var today = DateOnly.FromDateTime(DateTime.Now);
+                Console.WriteLine("все ок" + FullName + " " + mtr);
             }
             
-            DateOfreceipt = new DateOnly(2020, 5, 1);
-            DateOfdischarge = new DateOnly(2020, 5, 9);
-            numberofpatients = 1;
-            var today = DateOnly.FromDateTime(DateTime.Now);
-            Console.WriteLine("все ок" + FullName + " " +mtr);
             return;
 
 
@@ -45,7 +55,19 @@ namespace Therapeutic_department
         public void Print()
         {
             Console.WriteLine("все ок" + FullName);
-            Console.WriteLine($"ФИО: {FullName}, Дата рождения: {DateOfBirth}, Дата поступления: {DateOfreceipt}, Дата выписки: {DateOfdischarge}, {numberofpatients}");
+            Console.WriteLine($"ФИО: {FullName}, Дата рождения: {DateOfBirth}, Дата поступления: {DateOfreceipt}, Дата выписки: {DateOfdischarge}, {quantity}");
+            Console.WriteLine("Продолжить? Да - Y, нет - N");
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.Y:
+                    
+                    
+                    break;
+                case ConsoleKey.N:
+                    Console.ReadLine();
+                    break;
+            }
+            return;
         }
         public string FullName1()
         {
@@ -97,6 +119,34 @@ namespace Therapeutic_department
             {
                 Console.WriteLine("Некорректный формат даты.");
                 return false;
+            }
+        }
+        public DateOnly LimitDateInput()
+        {
+            Console.WriteLine("Введите дату поступления (в формате ГГГГ-ММ-ДД) в пределах недели от текущей даты:");
+
+            string input = Console.ReadLine();
+
+            if (DateOnly.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly date))
+            {
+                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
+                DateOnly minDate = currentDate.AddDays(-7);
+
+                if (date >= minDate && date <= currentDate)
+                {
+                    Console.WriteLine("Дата поступления в рамках недели от текущей даты.");
+                    return date;
+                }
+                else
+                {
+                    Console.WriteLine("Дата поступления не в рамках недели от текущей даты. Введите корректную дату.");
+                    return LimitDateInput();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Некорректный формат даты. Введите дату в формате ГГГГ-ММ-ДД.");
+                return LimitDateInput();
             }
         }
     }
