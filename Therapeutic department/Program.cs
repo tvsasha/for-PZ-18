@@ -25,31 +25,33 @@
                     Console.SetCursorPosition(40, 19);
                     Console.WriteLine("-n количество пациентов в отделении");
                     Console.ResetColor();
-                    switch (Console.ReadKey().Key)
+                    
+                switch (Console.ReadKey().Key)
                     {
                        
                         case ConsoleKey.R:
                         Console.Clear();
-                        Patient patient = new Patient();
-                        patient.Print();
+                        Patient patient1 = new Patient();
+                        patient1.Print0();
                         Console.Clear();
                         Preview();
                         break;
-                        case ConsoleKey.Z:
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.White;
-                            Console.SetCursorPosition(40, 15);
-                            Console.ResetColor();
-                         
-                            break;
-                        case ConsoleKey.N:
-                            Console.Clear();
-                        break;
                         case ConsoleKey.S:
                             Console.Clear();
-                            Console.Write("Игра сохранена");
-                        
-                            break;
+                        // Console.WriteLine("Введите номер пациента");
+                        Patient fr = new Patient();
+                        fr.Print0();
+                            Preview();
+                        break;
+                        case ConsoleKey.Z:
+                            Console.Clear();
+                            Preview();
+                        break;
+                        case ConsoleKey.N:
+                            Console.Clear();
+                            Preview();
+
+                        break;
                     }
                     return;
                 

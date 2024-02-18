@@ -10,61 +10,77 @@ namespace Therapeutic_department
     internal class Patient
     {
         public string FullName;
-        public DateOnly DateOfBirth;
-        public DateOnly DateOfreceipt;
+        public string DateOfBirth;
+        public string DateOfreceipt;
         public DateOnly DateOfdischarge;
         static int quantity;
         public int soverch;
         public string Name;
         public bool mtr;
+        public Patient(string fullName, string dateOfBirth, string dateOfreceipt, DateOnly dateOfdischarge, int soverch, string name, bool mtr)
+        {
+            FullName = fullName;
+            DateOfBirth = dateOfBirth;
+            DateOfreceipt = dateOfreceipt;
+            DateOfdischarge = dateOfdischarge;
+            this.soverch = soverch;
+            Name = name;
+            this.mtr = mtr;
+        }   
+
         public Patient()
         {
-
-
-            //string FullName = Convert.ToString(Console.ReadLine());
-
             
             if (quantity > 10)
             {
                 Console.WriteLine("Отсутствуют свободные места");
+                Print1();
             }
             else
             {
                 quantity += 1;
+                DateOfreceipt = DateOfreceipt1();
                 LimitDateInput();
                 FullName = FullName1();
-                DateOfBirth = new DateOnly();
+                DateOfBirth = birthString();
                 mtr = matur();
                 if (mtr == false)
                 {
-                    FullName = FullName1();
-
-                    mtr = matur();
+                    Print1();
                 }
-                DateOfreceipt = new DateOnly(2020, 5, 1);
-                DateOfdischarge = new DateOnly(2020, 5, 9);
-                var today = DateOnly.FromDateTime(DateTime.Now);
+                
+                DateOfdischarge = new DateOnly();
+                
                 Console.WriteLine("все ок" + FullName + " " + mtr);
-            }
-            
+            }            
             return;
 
-
-
         }
-        public void Print()
+        public void Print0()
         {
             Console.WriteLine("все ок" + FullName);
-            Console.WriteLine($"ФИО: {FullName}, Дата рождения: {DateOfBirth}, Дата поступления: {DateOfreceipt}, Дата выписки: {DateOfdischarge}, {quantity}");
+            Console.WriteLine($"ФИО: {FullName}, Дата рождения: {DateOfBirth}, Дата поступления: {DateOfreceipt}");
+            Console.WriteLine("Продолжить? Да - Y, нет - N");
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.Y:                                     
+                    break;
+                case ConsoleKey.N:
+                    Environment.Exit(0);
+                    break;
+            }
+            return;
+        }
+        public void Print1()
+        {          
             Console.WriteLine("Продолжить? Да - Y, нет - N");
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.Y:
                     
-                    
                     break;
                 case ConsoleKey.N:
-                    Console.ReadLine();
+                    Environment.Exit(0);
                     break;
             }
             return;
@@ -82,19 +98,36 @@ namespace Therapeutic_department
             Console.WriteLine("все ок" + FullName);
             return(FullName);
         }
-        //public void Soverch()
-        //{
-        //    var today = DateOnly.FromDateTime(DateTime.Now);
-        //    var birth = DateOnly.DateOfBirth;
-        //    var soverch = today - DateOfBirth;
-        //    var today1 = DateTime.FromDateOnly(DateOfBirth);
-        //}
-        public bool matur()
+          public string birthString()
         {
             Console.WriteLine("Введите дату рождения (в формате ГГГГ-ММ-ДД):");
-            string birthString = Console.ReadLine();
+            string birthString = Convert.ToString(Console.ReadLine());
 
-            if (DateOnly.TryParseExact(birthString, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly birth))
+            while (string.IsNullOrEmpty(birthString))
+            {
+                Console.WriteLine("Введите еще раз");
+                birthString = Convert.ToString(Console.ReadLine());
+            }
+            return birthString;
+        }
+        public string DateOfreceipt1()
+        {
+            Console.WriteLine("Введите дату поступления (в формате ГГГГ-ММ-ДД) в пределах недели от текущей даты:");
+
+            string DateOfreceipt1 = Convert.ToString(Console.ReadLine());
+            while (string.IsNullOrEmpty(DateOfreceipt1))
+            {
+                Console.WriteLine("Введите еще раз");
+                DateOfreceipt1 = Convert.ToString(Console.ReadLine());
+            }
+            return DateOfreceipt1;
+        }
+
+        public bool matur()
+        {            
+            string DateOfreceipt = DateOfBirth;
+
+            if (DateOnly.TryParseExact(DateOfreceipt, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly birth))
             {
                 DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
                 int age = currentDate.Year - birth.Year;
@@ -123,11 +156,8 @@ namespace Therapeutic_department
         }
         public DateOnly LimitDateInput()
         {
-            Console.WriteLine("Введите дату поступления (в формате ГГГГ-ММ-ДД) в пределах недели от текущей даты:");
-
-            string input = Console.ReadLine();
-
-            if (DateOnly.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly date))
+            
+            if (DateOnly.TryParseExact(DateOfreceipt, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly date))
             {
                 DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
                 DateOnly minDate = currentDate.AddDays(-7);
@@ -145,7 +175,7 @@ namespace Therapeutic_department
             }
             else
             {
-                Console.WriteLine("Некорректный формат даты. Введите дату в формате ГГГГ-ММ-ДД.");
+                Console.WriteLine("Некорректный формат даты");
                 return LimitDateInput();
             }
         }
