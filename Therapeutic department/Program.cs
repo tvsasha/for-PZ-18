@@ -2,6 +2,7 @@
 {
     internal class Program
     {
+        static List<Patient> patients = new List<Patient>();
         static void Main(string[] args)
         {
             Preview();          
@@ -32,15 +33,16 @@
                         case ConsoleKey.R:
                         Console.Clear();
                         Patient patient1 = new Patient();
+                        patients.Add(patient1);
                         patient1.Print0();
                         Console.Clear();
                         Preview();
                         break;
                         case ConsoleKey.S:
-                            Console.Clear();
-                        // Console.WriteLine("Введите номер пациента");
-                        Patient fr = new Patient();
-                        fr.Print0();
+                        foreach (var patient in patients)
+                        {
+                            Console.WriteLine($"ФИО: {patient.FullName}, Дата рождения: {patient.DateOfBirth}, Дата поступления: {patient.DateOfreceipt}");
+                        }                                              
                             Preview();
                         break;
                         case ConsoleKey.Z:

@@ -13,7 +13,7 @@ namespace Therapeutic_department
         public string DateOfBirth;
         public string DateOfreceipt;
         public DateOnly DateOfdischarge;
-        static int quantity;
+        static int quantity = 0;
         public int soverch;
         public string Name;
         public bool mtr;
@@ -31,7 +31,7 @@ namespace Therapeutic_department
         public Patient()
         {
             
-            if (quantity > 10)
+            if (quantity >= 2)
             {
                 Console.WriteLine("Отсутствуют свободные места");
                 Print1();
@@ -51,7 +51,7 @@ namespace Therapeutic_department
                 
                 DateOfdischarge = new DateOnly();
                 
-                Console.WriteLine("все ок" + FullName + " " + mtr);
+                Console.WriteLine("все ок" + FullName + " " + mtr + quantity);
             }            
             return;
 
