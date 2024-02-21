@@ -11,23 +11,19 @@ namespace Therapeutic_department
     {
         public string FullName;
         private string DateOfBirth;
-        public string DateOfreceipt;
+        public DateOnly DateOfreceipt;
         public DateOnly DateOfdischarge;
-        public static int quantity;
-        private int soverch;
-        private string Name;
+        public static int count;
         public static bool mtr;
 
         public string getFullName { get { return FullName; } }
 
-        public Patient(string fullName, string dateOfBirth, string dateOfreceipt, DateOnly dateOfdischarge, int soverch, string name, bool mtr)
+        public Patient(string fullName, string dateOfBirth, DateOnly dateOfreceipt, DateOnly dateOfdischarge, int soverch, string name, bool mtr)
         {
             FullName = fullName;
             DateOfBirth = dateOfBirth;
             DateOfreceipt = dateOfreceipt;
-            DateOfdischarge = dateOfdischarge;
-            this.soverch = soverch;
-            Name = name;
+            DateOfdischarge = dateOfdischarge;            
         }
 
         public override string ToString()
@@ -36,45 +32,25 @@ namespace Therapeutic_department
         }
 
         public Patient()
-        {         
-                
-                DateOfreceipt = DateOfreceipt1();
-                LimitDateInput();
+        {              
+                DateOfreceipt = LimitDateInput();             
                 FullName = FullName1();
-                DateOfBirth = birthString();
-                mtr = matur();
-                
-                    DateOfdischarge = new DateOnly();
-                   
-                
-                       
+                DateOfBirth = Birth();
+                mtr = Matur();              
+                DateOfdischarge = new DateOnly();                                        
                 return;
-
         }
-        public static void del()
+        public static void del(string FullName)
         {
             if (mtr == false)
             {
-                {
-                    if (mtr == false)
-                    {
-                        Patient patientToRemove = Program.patients.Find(p => p.FullName == p.FullName);
-
+                        Patient patientToRemove = Program.patients.Find(p => p.FullName == FullName);
                         if (patientToRemove != null)
                         {
                             Program.patients.Remove(patientToRemove);
-                            quantity--;
+                            count--;
                         }
-                        else
-                        {
-                            
-                        }
-
-                    }
-                }
-
-
-            }
+            }            
         }
         public void Print0()
         {            
@@ -116,7 +92,7 @@ namespace Therapeutic_department
             }
             return(FullName);
         }
-        public string birthString()
+        public string Birth()
         {
             Console.WriteLine("Введите дату рождения (в формате ГГГГ-ММ-ДД):");
             string birthString = Convert.ToString(Console.ReadLine());
@@ -126,30 +102,25 @@ namespace Therapeutic_department
                 Console.WriteLine("Введите еще раз");
                 birthString = Convert.ToString(Console.ReadLine());
             }
-            return birthString;
-        }
-        public string DateOfreceipt1()
-        {
-            Console.WriteLine("Введите дату поступления (в формате ГГГГ-ММ-ДД) в пределах недели от текущей даты:");
-
-            string DateOfreceipt1 = Convert.ToString(Console.ReadLine());
-            while (string.IsNullOrEmpty(DateOfreceipt1))
-            {
-                Console.WriteLine("Введите еще раз");
-                DateOfreceipt1 = Convert.ToString(Console.ReadLine());
+            if (DateOnly.TryParseExact(birthString, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly date))
+            {              
+                    Console.WriteLine("ок");
+                    return birthString;                             
             }
-            return DateOfreceipt1;
+            else
+            {
+                Console.WriteLine("Некорректный формат даты. Введите дату в формате ГГГГ-ММ-ДД.");
+                return Birth();
+            }
         }
-
-        public bool matur()
-        {            
+        public bool Matur()
+        {
             string DateOfreceipt = DateOfBirth;
 
             if (DateOnly.TryParseExact(DateOfreceipt, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly birth))
             {
                 DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
                 int age = currentDate.Year - birth.Year;
-
                 if (currentDate.DayOfYear < birth.DayOfYear)
                 {
                     age--;
@@ -174,13 +145,14 @@ namespace Therapeutic_department
         }
         public DateOnly LimitDateInput()
         {
-            
-            if (DateOnly.TryParseExact(DateOfreceipt, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly date))
+            DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
+            DateOnly minDate = currentDate.AddDays(-7);
+            DateOnly maxDate = currentDate;
+            Console.WriteLine($"Введите дату поступления (в формате ГГГГ-ММ-ДД) в пределах недели от текущей даты:");
+            string input = Console.ReadLine();
+            if (DateOnly.TryParseExact(input, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateOnly date))
             {
-                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Today);
-                DateOnly minDate = currentDate.AddDays(-7);
-
-                if (date >= minDate && date <= currentDate)
+                if (date >= minDate && date <= maxDate)
                 {
                     Console.WriteLine("Дата поступления в рамках недели от текущей даты.");
                     return date;
@@ -193,17 +165,21 @@ namespace Therapeutic_department
             }
             else
             {
-                Console.WriteLine("Некорректный формат даты");
+                Console.WriteLine("Некорректный формат даты. Введите дату в формате ГГГГ-ММ-ДД.");
                 return LimitDateInput();
-            }
+            }       
         }
         public void DischargePatient()
         {
             DateOnly DateOfDischarge = DateOnly.FromDateTime(DateTime.Now);
             Console.WriteLine($"Пациент {FullName} поступил в отделение {DateOfreceipt}, выписан {DateOfDischarge}");
+            count--;
+            return;
+        }
+        public static void count1()
+        {
+            Console.WriteLine($" Количество пациентов: {count}");
             return;
         }
     }
-
-
 }
