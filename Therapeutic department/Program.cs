@@ -1,8 +1,8 @@
-﻿namespace Therapeutic_department
+﻿namespace Therapeutic_department //Туйгунов Александр и Бондарев Дмитрий Вариант 3
 {
     internal class Program
     {
-        static List<Patient> patients = new List<Patient>();
+        public static List<Patient> patients = new List<Patient>();
         static void Main(string[] args)
         {
             Preview();          
@@ -16,7 +16,7 @@
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(40, 17);
-                    Console.WriteLine("-s получить информацию о пациенте");
+                    Console.WriteLine("-s получить информацию о пациентах");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.SetCursorPosition(40, 18);
@@ -41,7 +41,15 @@
                         else
                         {
                             Patient patient1 = new Patient();
-                            patients.Add(patient1);
+                            if (Patient.mtr == false)
+                            {
+                                Patient.del();
+                            }
+                            else
+                            {
+                                patients.Add(patient1);
+                                Patient.quantity++;
+                            }
                             patient1.Print0();
                             Console.Clear();
                         }
@@ -59,9 +67,20 @@
                         Preview();
                         break;
                         case ConsoleKey.Z:
-                            Console.Clear();
-                        Patient.discharg();
-                        Console.WriteLine(Patient.quantity);
+                        Console.Clear();
+                        Console.WriteLine("Введите ФИО пациента");
+                        string fullName = Console.ReadLine();
+                        Patient patientToRemove = patients.Find(p => p.FullName == fullName);
+
+                        if (patientToRemove != null)
+                        {
+                            patientToRemove.DischargePatient();
+                            patients.Remove(patientToRemove);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Пациент с ФИО " + fullName + " не найден");
+                        }
                         Patient.Print1();
                         Console.Clear();
                         Preview();

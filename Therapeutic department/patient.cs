@@ -9,14 +9,14 @@ namespace Therapeutic_department
 {
     internal class Patient
     {
-        private string FullName;
+        public string FullName;
         private string DateOfBirth;
-        private string DateOfreceipt;
-        private DateOnly DateOfdischarge;
+        public string DateOfreceipt;
+        public DateOnly DateOfdischarge;
         public static int quantity;
         private int soverch;
         private string Name;
-        private bool mtr;
+        public static bool mtr;
 
         public string getFullName { get { return FullName; } }
 
@@ -28,7 +28,6 @@ namespace Therapeutic_department
             DateOfdischarge = dateOfdischarge;
             this.soverch = soverch;
             Name = name;
-            this.mtr = mtr;
         }
 
         public override string ToString()
@@ -37,52 +36,48 @@ namespace Therapeutic_department
         }
 
         public Patient()
-        {
-            
-            if (quantity > 2)
-            {
-                Console.WriteLine("Отсутствуют свободные места");
-                Print1();
-            }
-            else
-            {
-                quantity++;
+        {         
+                
                 DateOfreceipt = DateOfreceipt1();
                 LimitDateInput();
                 FullName = FullName1();
                 DateOfBirth = birthString();
                 mtr = matur();
-                if (mtr == false)
-                {
-                    Print1();
-                }
                 
-                DateOfdischarge = new DateOnly();
+                    DateOfdischarge = new DateOnly();
+                   
                 
-                Console.WriteLine("все ок" + FullName + " "  + quantity);
-            }
-            Console.WriteLine("quantity " + quantity);
-            return;
+                       
+                return;
 
         }
-        //public bool e()
-        //{
-        //    bool es = false;
-        //    if (quantity > 2)
-        //    {
-        //        Console.WriteLine(quantity);
-        //        es = true;
-        //    }
-        //    else
-        //    {
-        //        es = false;
-        //    }
-
-        // return (es);
-        //}
-        public void Print0()
+        public static void del()
         {
-            Console.WriteLine("все ок" + FullName);
+            if (mtr == false)
+            {
+                {
+                    if (mtr == false)
+                    {
+                        Patient patientToRemove = Program.patients.Find(p => p.FullName == p.FullName);
+
+                        if (patientToRemove != null)
+                        {
+                            Program.patients.Remove(patientToRemove);
+                            quantity--;
+                        }
+                        else
+                        {
+                            
+                        }
+
+                    }
+                }
+
+
+            }
+        }
+        public void Print0()
+        {            
             Console.WriteLine($"ФИО: {FullName}, Дата рождения: {DateOfBirth}, Дата поступления: {DateOfreceipt}");
             Console.WriteLine("Продолжить? Да - Y, нет - N");
             switch (Console.ReadKey().Key)
@@ -119,10 +114,9 @@ namespace Therapeutic_department
                 Console.WriteLine("Введите еще раз");
                 FullName = Convert.ToString(Console.ReadLine());
             }
-            Console.WriteLine("все ок" + FullName);
             return(FullName);
         }
-          public string birthString()
+        public string birthString()
         {
             Console.WriteLine("Введите дату рождения (в формате ГГГГ-ММ-ДД):");
             string birthString = Convert.ToString(Console.ReadLine());
@@ -203,13 +197,13 @@ namespace Therapeutic_department
                 return LimitDateInput();
             }
         }
-        public static void discharg()
+        public void DischargePatient()
         {
-            Console.WriteLine("Введите ФИО пациента");
-
-            quantity--;
+            DateOnly DateOfDischarge = DateOnly.FromDateTime(DateTime.Now);
+            Console.WriteLine($"Пациент {FullName} поступил в отделение {DateOfreceipt}, выписан {DateOfDischarge}");
             return;
         }
-
     }
+
+
 }
