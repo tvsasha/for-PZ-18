@@ -31,51 +31,46 @@
                     {
                        
                         case ConsoleKey.R:
-                        Console.Clear();                                                                        
-                        Patient patient1 = new Patient();
-                        //bool c = patient1.e();
-                        //if (c == true)
-                        //    {
-                            
-                        //}
-                        //else
-                        //{
-                            
-                        //}
+                        Console.Clear();                                                                                                                                           
+                        if (Patient.quantity == 10)
+                        {
+                            Console.WriteLine("Отсутствуют свободные места");
+                            Patient.Print1();
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Patient patient1 = new Patient();
+                            patients.Add(patient1);
+                            patient1.Print0();
+                            Console.Clear();
+                        }
                         
-                        patients.Add(patient1);
-                        patient1.Print0();
-                        Console.Clear();
                         Preview();
                         break;
                         case ConsoleKey.S:
+                        Console.Clear();
                         foreach (var patient in patients)
                         {
                             Console.WriteLine(patient);
-                        }                                              
-                            Preview();
+                        }
+                        Patient.Print1();
+                        Console.Clear();
+                        Preview();
                         break;
                         case ConsoleKey.Z:
                             Console.Clear();
-                            Preview();
+                        Patient.discharg();
+                        Console.WriteLine(Patient.quantity);
+                        Patient.Print1();
+                        Console.Clear();
+                        Preview();
                         break;
                         case ConsoleKey.N:
-                            Console.Clear();
-                        //Patient patient2 = new Patient();
-                        //patient2.quantity1();
-                        //int e = patient2.e();
-                        int t = 0;
-                        foreach (var patient in patients)
-                        {
-                            
-                            t++;
-                            
-
-                            
-                        }
-                        Console.WriteLine($" Количество пациентов: {t}");
-                        //Console.WriteLine(e);
+                            Console.Clear();                       
+                        Console.WriteLine($" Количество пациентов: {Patient.quantity}");                        
                         Patient.Print1();
+                        Console.Clear();
                         Preview();
 
                         break;

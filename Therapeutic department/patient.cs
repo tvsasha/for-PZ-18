@@ -13,7 +13,7 @@ namespace Therapeutic_department
         private string DateOfBirth;
         private string DateOfreceipt;
         private DateOnly DateOfdischarge;
-        private int quantity = 0;
+        public static int quantity;
         private int soverch;
         private string Name;
         private bool mtr;
@@ -60,7 +60,8 @@ namespace Therapeutic_department
                 DateOfdischarge = new DateOnly();
                 
                 Console.WriteLine("все ок" + FullName + " "  + quantity);
-            }            
+            }
+            Console.WriteLine("quantity " + quantity);
             return;
 
         }
@@ -201,6 +202,14 @@ namespace Therapeutic_department
                 Console.WriteLine("Некорректный формат даты");
                 return LimitDateInput();
             }
-        }       
+        }
+        public static void discharg()
+        {
+            Console.WriteLine("Введите ФИО пациента");
+
+            quantity--;
+            return;
+        }
+
     }
 }
