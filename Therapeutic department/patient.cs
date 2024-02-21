@@ -15,9 +15,7 @@ namespace Therapeutic_department
         public DateOnly DateOfdischarge;
         public static int count;
         public static bool mtr;
-
         public string getFullName { get { return FullName; } }
-
         public Patient(string fullName, string dateOfBirth, DateOnly dateOfreceipt, DateOnly dateOfdischarge, int soverch, string name, bool mtr)
         {
             FullName = fullName;
@@ -25,12 +23,10 @@ namespace Therapeutic_department
             DateOfreceipt = dateOfreceipt;
             DateOfdischarge = dateOfdischarge;            
         }
-
         public override string ToString()
         {
             return ($"ФИО: {FullName}, Дата рождения: {DateOfBirth}, Дата поступления: {DateOfreceipt}"); ;
         }
-
         public Patient()
         {              
                 DateOfreceipt = LimitDateInput();             
