@@ -31,8 +31,18 @@
                     {
                        
                         case ConsoleKey.R:
-                        Console.Clear();
+                        Console.Clear();                                                                        
                         Patient patient1 = new Patient();
+                        //bool c = patient1.e();
+                        //if (c == true)
+                        //    {
+                            
+                        //}
+                        //else
+                        //{
+                            
+                        //}
+                        
                         patients.Add(patient1);
                         patient1.Print0();
                         Console.Clear();
@@ -41,7 +51,7 @@
                         case ConsoleKey.S:
                         foreach (var patient in patients)
                         {
-                            Console.WriteLine($"ФИО: {patient.FullName}, Дата рождения: {patient.DateOfBirth}, Дата поступления: {patient.DateOfreceipt}");
+                            Console.WriteLine(patient);
                         }                                              
                             Preview();
                         break;
@@ -51,7 +61,22 @@
                         break;
                         case ConsoleKey.N:
                             Console.Clear();
-                            Preview();
+                        //Patient patient2 = new Patient();
+                        //patient2.quantity1();
+                        //int e = patient2.e();
+                        int t = 0;
+                        foreach (var patient in patients)
+                        {
+                            
+                            t++;
+                            
+
+                            
+                        }
+                        Console.WriteLine($" Количество пациентов: {t}");
+                        //Console.WriteLine(e);
+                        Patient.Print1();
+                        Preview();
 
                         break;
                     }

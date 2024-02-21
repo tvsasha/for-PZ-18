@@ -9,14 +9,17 @@ namespace Therapeutic_department
 {
     internal class Patient
     {
-        public string FullName;
-        public string DateOfBirth;
-        public string DateOfreceipt;
-        public DateOnly DateOfdischarge;
-        static int quantity = 0;
-        public int soverch;
-        public string Name;
-        public bool mtr;
+        private string FullName;
+        private string DateOfBirth;
+        private string DateOfreceipt;
+        private DateOnly DateOfdischarge;
+        private int quantity = 0;
+        private int soverch;
+        private string Name;
+        private bool mtr;
+
+        public string getFullName { get { return FullName; } }
+
         public Patient(string fullName, string dateOfBirth, string dateOfreceipt, DateOnly dateOfdischarge, int soverch, string name, bool mtr)
         {
             FullName = fullName;
@@ -26,19 +29,24 @@ namespace Therapeutic_department
             this.soverch = soverch;
             Name = name;
             this.mtr = mtr;
-        }   
+        }
+
+        public override string ToString()
+        {
+            return ($"ФИО: {FullName}, Дата рождения: {DateOfBirth}, Дата поступления: {DateOfreceipt}"); ;
+        }
 
         public Patient()
         {
             
-            if (quantity >= 2)
+            if (quantity > 2)
             {
                 Console.WriteLine("Отсутствуют свободные места");
                 Print1();
             }
             else
             {
-                quantity += 1;
+                quantity++;
                 DateOfreceipt = DateOfreceipt1();
                 LimitDateInput();
                 FullName = FullName1();
@@ -51,11 +59,26 @@ namespace Therapeutic_department
                 
                 DateOfdischarge = new DateOnly();
                 
-                Console.WriteLine("все ок" + FullName + " " + mtr + quantity);
+                Console.WriteLine("все ок" + FullName + " "  + quantity);
             }            
             return;
 
         }
+        //public bool e()
+        //{
+        //    bool es = false;
+        //    if (quantity > 2)
+        //    {
+        //        Console.WriteLine(quantity);
+        //        es = true;
+        //    }
+        //    else
+        //    {
+        //        es = false;
+        //    }
+
+        // return (es);
+        //}
         public void Print0()
         {
             Console.WriteLine("все ок" + FullName);
@@ -71,7 +94,7 @@ namespace Therapeutic_department
             }
             return;
         }
-        public void Print1()
+        public static void Print1()
         {          
             Console.WriteLine("Продолжить? Да - Y, нет - N");
             switch (Console.ReadKey().Key)
@@ -178,6 +201,6 @@ namespace Therapeutic_department
                 Console.WriteLine("Некорректный формат даты");
                 return LimitDateInput();
             }
-        }
+        }       
     }
 }
